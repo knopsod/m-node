@@ -17,6 +17,12 @@ import { Switch, Route } from 'react-router-dom';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
+import DashboardDesktopPage from 'containers/DashboardDesktopPage';
+import DashboardExplainPage from 'containers/DashboardExplainPage';
+import DashboardPage from 'containers/DashboardPage';
+import MasternodeExplainPage from 'containers/MasternodeExplainPage';
+import ReportExplainPage from 'containers/ReportExplainPage';
+
 import Header from 'components/Header'
 
 export default function App() {
@@ -25,6 +31,13 @@ export default function App() {
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
+
+        <Route path="/dashboard-desktop" component={DashboardDesktopPage} />
+        <Route path="/dashboard-explain" component={DashboardExplainPage} />
+        <Route path="/dashboard" component={DashboardPage} />
+        <Route path="/masternode-explain" component={MasternodeExplainPage} />
+        <Route path="/report-explain" component={ReportExplainPage} />
+
         <Route component={NotFoundPage} />
       </Switch>
     </div>
