@@ -35,4 +35,9 @@ injectGlobal`
   .body-masternode {
     background-color : #1b1c1d;
   }
+
+  .dashboard {
+    background-color : #1b1c1d;
+    color : #ffffff;
+  }
 `;

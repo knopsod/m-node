@@ -21,18 +21,18 @@ const data = [{name: 'Group A', value: 400, flag: 4}, {name: 'Group B', value: 3
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, flag }) => {
- 	const radius = innerRadius + (outerRadius - innerRadius) * 1.25;
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, y }) => {
+ 	const radius = innerRadius + (outerRadius - innerRadius) * 1.4;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  const yy = cy + radius * Math.sin(-midAngle * RADIAN);
  
   return (
     <g>
-      <text x={x} y={y} fill="black" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+      <text x={x} y={yy} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
         {`${(percent * 100).toFixed(0)}%`}
       </text>
-      <text x={x} y={y + 10} fill="black" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-        new line {flag}
+      <text x={x} y={yy + 10} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+        {y}
       </text>
     </g>
   );
@@ -51,6 +51,7 @@ class Dashboard extends React.Component {
     super(props);
 
     this.state = {
+      dashboardStatus: {},
       pieData: []
     }
   }
@@ -58,11 +59,21 @@ class Dashboard extends React.Component {
   componentDidMount() {
     fetch('http://180.128.20.132:3000/v1/masternode/status?coin=all')
       .then(response => response.json())
-      .then(json => console.log(json));
+      .then(json => {
+        console.log(json)
+        this.setState({
+          ...this.state,
+          dashboardStatus: json
+        });
+      });
 
     fetch('http://180.128.20.132:3000/v1/masternode/chart')
       .then(response => response.json())
       .then(json => {
+        json.map((obj) => {
+          obj['value'] = obj.y;
+          return obj;
+        });
         console.log(json);
         this.setState({
           ...this.state,
@@ -73,15 +84,24 @@ class Dashboard extends React.Component {
 
   render() {
 
-    const pieData = this.state.pieData;
+    const { dashboardStatus, pieData } = this.state;
 
     return (
-      <div>
+      <div className="dashboard">
         <h1>DASHBOARD cls</h1>
+
+        <div>
+          { `offline: ${dashboardStatus.offline}, online: ${dashboardStatus.online}, warning: ${dashboardStatus.warning}, ` }
+        </div>
+
+        <ul>
+          { pieData.map((pd, index) => (<li key={index}>{`name: ${pd.name}, y: ${pd.y}, reward: ${pd.reward}, server: ${pd.server}, value: ${pd.value}, `}</li>)) }
+        </ul>
+
         <h5>Income</h5>
         <ul>
           { incomePeriods.map(
-              (ipd, index) => <li key={index}>{`${ipd.type} ${ipd.dollar} ${ipd.coin}`}</li>
+            (ipd, index) => <li key={index}>{`${ipd.type}`}</li>
           ) }
         </ul>
         <h5>Masternode Status</h5>
@@ -100,14 +120,12 @@ class Dashboard extends React.Component {
             fill="#8884d8"
           >
             {
-              data.map((entry, index) => <Cell key={index} dataKey={index} fill={COLORS[index % COLORS.length]}/>)
+              pieData.map((entry, index) => <Cell key={index} dataKey={index} fill={COLORS[index % COLORS.length]}/>)
             }
           </Pie>
           <Tooltip/>
         </PieChart>
-        <ul>
-          { pieData.map((pd, index) => (<li key={index}>{`name: ${pd.name}, y: ${pd.y}, reward: ${pd.reward}, server: ${pd.server}, `}</li>)) }
-        </ul>
+        
       </div>)
   }
 };
