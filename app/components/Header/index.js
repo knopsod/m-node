@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 const header = (props) => (
-  <nav className="navbar navbar-default">
+  <nav className="navbar navbar-default nav-masternode">
     <div className="container-fluid">
       <div className="navbar-header">
         <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -11,14 +11,14 @@ const header = (props) => (
           <span className="icon-bar" />
         </button>
 
-        <Link className="navbar-brand" to="/">MASTERNODECENTER</Link>
+        <Link className="navbar-brand nav-masternode" style={{color: 'white'}} to="/">masternode</Link>
       </div>
 
       <div className="collapse navbar-collapse" id="myNavbar">
         <ul className="nav navbar-nav navbar-right">
           { true ? (
             <li>
-              <Link to="/login">Login</Link>
+              <Link to="/login" style={{color: 'white'}}>Login</Link>
             </li>
           ) : (
             <li>

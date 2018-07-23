@@ -27,4 +27,12 @@ injectGlobal`
     font-family: Georgia, Times, 'Times New Roman', serif;
     line-height: 1.5em;
   }
+
+  .nav-masternode {
+    background-color : #1b1c1d;
+  }
+
+  .body-masternode {
+    background-color : #1b1c1d;
+  }
 `;
