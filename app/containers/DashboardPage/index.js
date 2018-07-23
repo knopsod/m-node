@@ -33,6 +33,57 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
   );
 };
 
+class Dashboard extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    fetch('http://180.128.20.132:3000/v1/masternode/status?coin=all')
+      .then(response => response.json())
+      .then(json => console.log(json));
+
+    fetch('http://180.128.20.132:3000/v1/masternode/chart')
+      .then(response => response.json())
+      .then(json => console.log(json));
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>DASHBOARD cls</h1>
+        <h5>Income</h5>
+        <ul>
+          { incomePeriods.map(
+              (ipd, index) => <li key={index}>{`${ipd.type} ${ipd.dollar} ${ipd.coin}`}</li>
+          ) }
+        </ul>
+        <h5>Masternode Status</h5>
+        <h5>Report</h5>
+  
+        <PieChart width={800} height={400}>
+          <Pie isAnimationActive={false} data={data01} cx={200} cy={200} outerRadius={80} fill="#8884d8" label/>
+          <Pie data={data02} cx={400} cy={200} innerRadius={40} outerRadius={80} fill="#82ca9d" label/>
+          <Pie
+            data={data} 
+            cx={600} 
+            cy={200} 
+            labelLine={false}
+            label={renderCustomizedLabel}
+            outerRadius={80} 
+            fill="#8884d8"
+          >
+            {
+              data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
+            }
+          </Pie>
+          <Tooltip/>
+         </PieChart>
+  
+      </div>)
+  }
+}
+
 const index = props => {
   return (
     <div>
@@ -68,4 +119,4 @@ const index = props => {
     </div>)
 };
 
-export default index;
+export default Dashboard;
