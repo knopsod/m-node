@@ -21,7 +21,7 @@ const data = [{name: 'Group A', value: 400, flag: 4}, {name: 'Group B', value: 3
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, y }) => {
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, value }) => {
  	const radius = innerRadius + (outerRadius - innerRadius) * 1.4;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const yy = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -32,7 +32,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
         {`${(percent * 100).toFixed(0)}%`}
       </text>
       <text x={x} y={yy + 10} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-        {y}
+        HaHa { value }
       </text>
     </g>
   );
@@ -108,10 +108,11 @@ class Dashboard extends React.Component {
         <h5>Report</h5>
   
         <PieChart width={800} height={400}>
-          <Pie isAnimationActive={false} data={data01} cx={200} cy={200} outerRadius={80} fill="#8884d8" label/>
-          <Pie data={data02} cx={400} cy={200} innerRadius={40} outerRadius={80} fill="#82ca9d" label/>
+          <Pie isAnimationActive={false} data={data01} dataKey="value" cx={200} cy={200} outerRadius={80} fill="#8884d8" label/>
+          <Pie data={data02} dataKey="value" cx={400} cy={200} innerRadius={40} outerRadius={80} fill="#82ca9d" label/>
           <Pie
-            data={data} 
+            data={data}
+            dataKey="value"
             cx={600} 
             cy={200} 
             labelLine={true}
@@ -120,7 +121,7 @@ class Dashboard extends React.Component {
             fill="#8884d8"
           >
             {
-              pieData.map((entry, index) => <Cell key={index} dataKey={index} fill={COLORS[index % COLORS.length]}/>)
+              data.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
             }
           </Pie>
           <Tooltip/>

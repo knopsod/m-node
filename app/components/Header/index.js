@@ -11,10 +11,20 @@ const header = (props) => (
           <span className="icon-bar" />
         </button>
 
-        <Link className="navbar-brand nav-masternode" style={{color: 'white'}} to="/">masternode</Link>
+        <Link className="navbar-brand nav-masternode" style={{color: 'white'}} to="/masternodes">
+          masternodes
+        </Link>
       </div>
 
       <div className="collapse navbar-collapse" id="myNavbar">
+        <ul className="nav navbar-nav">
+          <li>
+            <Link to="/dashboard" style={{color: 'white'}}>dashboard</Link>
+          </li>
+          <li>
+            <Link to="/reports" style={{color: 'white'}}>reports</Link>
+          </li>
+        </ul>
         <ul className="nav navbar-nav navbar-right">
           { true ? (
             <li>

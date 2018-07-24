@@ -28,8 +28,9 @@ export default function App() {
     <div>
       <Header />
       <Switch>
-        <Route exact path="/" component={HomePage} />
+        {/* <Route exact path="/" component={HomePage} /> */}
 
+        <Route exact path="/" component={DashboardPage} />
         <Route path="/dashboard" component={DashboardPage} />
         <Route path="/masternodes" component={MasternodesPage} />
         <Route path="/reports" component={ReportsPage} />
