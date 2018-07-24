@@ -57,29 +57,33 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://180.128.20.132:3000/v1/masternode/status?coin=all')
-      .then(response => response.json())
-      .then(json => {
-        console.log(json)
-        this.setState({
-          ...this.state,
-          dashboardStatus: json
+    setTimeout(() => {
+      fetch('http://180.128.20.132:3000/v1/masternode/status?coin=all')
+        .then(response => response.json())
+        .then(json => {
+          console.log(json)
+          this.setState({
+            ...this.state,
+            dashboardStatus: json
+          });
         });
-      });
+    }, 1000);
 
-    fetch('http://180.128.20.132:3000/v1/masternode/chart')
-      .then(response => response.json())
-      .then(json => {
-        json.map((obj) => {
-          obj['value'] = obj.y;
-          return obj;
+    setTimeout(() => {
+      fetch('http://180.128.20.132:3000/v1/masternode/chart')
+        .then(response => response.json())
+        .then(json => {
+          json.map((obj) => {
+            obj['value'] = obj.y;
+            return obj;
+          });
+          console.log(json);
+          this.setState({
+            ...this.state,
+            pieData: json
+          });
         });
-        console.log(json);
-        this.setState({
-          ...this.state,
-          pieData: json
-        });
-      });
+    }, 1000);
   }
 
   render() {
